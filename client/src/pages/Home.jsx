@@ -5,6 +5,8 @@ import About from '../components/About';
 import Projects from '../components/Projects';
 import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
+import Stats from '../components/Stats';
+import Features from '../components/Features';
 import ParallaxBackground from '../components/ParallaxBackground';
 
 const Home = () => {
@@ -18,6 +20,8 @@ const Home = () => {
       <ParallaxBackground />
       <main>
         <Hero />
+        <Stats />
+        <Features />
         <About />
         <Projects />
         <Testimonials />
