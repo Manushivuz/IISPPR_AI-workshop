@@ -1,106 +1,122 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React, { memo } from 'react';
+import { motion, useInView } from 'framer-motion';
+import PropTypes from 'prop-types';
+import ComponentErrorBoundary from './ComponentErrorBoundary';
+
+const TestimonialCard = memo(({ testimonial, index }) => {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  const variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={variants}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="bg-gray-800/30 backdrop-blur-md rounded-xl p-8 hover:transform hover:scale-105 transition-transform duration-300"
+      role="article"
+      aria-label={`Testimonial from ${testimonial.name}`}
+    >
+      <div className="flex items-center mb-6">
+        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+          {testimonial.name.charAt(0)}
+        </div>
+        <div className="ml-4">
+          <h3 className="text-xl font-semibold text-white">{testimonial.name}</h3>
+          <p className="text-gray-400">{testimonial.role}</p>
+          <p className="text-blue-400 text-sm">{testimonial.school}</p>
+        </div>
+      </div>
+      <p className="text-gray-300 text-lg leading-relaxed">{testimonial.content}</p>
+    </motion.div>
+  );
+});
+
+TestimonialCard.propTypes = {
+  testimonial: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    school: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+};
+
+TestimonialCard.displayName = 'TestimonialCard';
 
 const Testimonials = () => {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
   const testimonials = [
     {
-      name: 'Priya Sharma',
-      role: 'Student, Govt. School',
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
-      quote: 'IISPPR AI Labs made learning AI fun and accessible! The hands-on projects helped me understand complex concepts easily.'
+      name: 'Manu',
+      role: 'Student',
+      school: 'IIT Bombay',
+      content: 'Learning AI with IISPPR AI Labs was such a great experience! The hands-on projects made everything feel simple and engaging—even the tough stuff was easy to grasp.'
     },
     {
-      name: 'Rajesh Kumar',
-      role: 'Teacher, Govt. College',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      quote: 'The AI education program has transformed our teaching methods. Students are more engaged and excited about learning.'
+      name: 'Ajay',
+      role: 'Teacher',
+      school: 'Random School',
+      content: 'The AI education program has completely transformed the way I teach. My students are more engaged and genuinely excited to learn—it\'s amazing to see their curiosity grow every day.'
     },
     {
-      name: 'Anita Patel',
+      name: 'Sudhanshu',
       role: 'School Principal',
-      image: 'https://randomuser.me/api/portraits/women/68.jpg',
-      quote: 'Partnering with IISPPR AI Labs has been a game-changer for our school. The impact on student learning is remarkable.'
+      school: 'Random School',
+      content: 'Partnering with IISPPR AI Labs has truly been a game-changer for our school. I\'ve seen a remarkable difference in how our students learn and engage with AI.'
     }
   ];
 
   return (
-    <section id="testimonials" className="py-20 bg-gray-900">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-            What People Say
-          </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Hear from students, teachers, and school administrators about their experience with IISPPR AI LABS.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-gray-800/50 p-6 rounded-lg"
+    <ComponentErrorBoundary>
+      <section 
+        ref={ref}
+        className="py-32 bg-gray-900"
+        aria-labelledby="testimonials-heading"
+      >
+        <div className="container mx-auto px-6 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-24"
+          >
+            <h2 
+              id="testimonials-heading"
+              className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text"
             >
-              <div className="flex items-center mb-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
-                <div>
-                  <h3 className="text-white font-semibold">{testimonial.name}</h3>
-                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
-                </div>
-              </div>
-              <p className="text-gray-300 italic">"{testimonial.quote}"</p>
-            </motion.div>
-          ))}
+              Success Stories
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
+              Hear from our students, teachers, and partners about their experience with IISPPR AI Labs
+            </p>
+          </motion.div>
+
+          <div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+            role="list"
+            aria-label="Testimonials"
+          >
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard 
+                key={testimonial.name} 
+                testimonial={testimonial} 
+                index={index} 
+              />
+            ))}
+          </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          <Link to="/testimonials">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors inline-flex items-center space-x-2"
-            >
-              <span>See More Testimonials</span>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </motion.button>
-          </Link>
-        </motion.div>
-      </div>
-    </section>
+      </section>
+    </ComponentErrorBoundary>
   );
 };
 
-export default Testimonials; 
+export default memo(Testimonials); 
