@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
 import PropTypes from 'prop-types';
-import ErrorBoundary from './ErrorBoundary';
+import ComponentErrorBoundary from './ComponentErrorBoundary';
 
 const StatCard = memo(({ stat, index }) => {
   const ref = React.useRef(null);
@@ -81,7 +81,7 @@ const Stats = () => {
   ), []);
 
   return (
-    <ErrorBoundary>
+    <ComponentErrorBoundary>
       <section 
         ref={ref}
         className="py-32 bg-gray-900/50 backdrop-blur-sm"
@@ -114,7 +114,7 @@ const Stats = () => {
           </div>
         </div>
       </section>
-    </ErrorBoundary>
+    </ComponentErrorBoundary>
   );
 };
 

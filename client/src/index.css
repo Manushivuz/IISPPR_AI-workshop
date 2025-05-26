@@ -7,33 +7,36 @@
   .animate-gradient {
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+    will-change: background-position;
   }
   .glass-effect {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    will-change: backdrop-filter, background;
   }
   .hover-lift {
-    transform: scale(1);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateZ(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
   .hover-lift:hover {
-    transform: scale(1.05);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px) translateZ(0);
   }
   .hover-glow {
-    transition: all 0.3s ease;
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: box-shadow;
   }
   .hover-glow:hover {
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
   }
   .text-gradient {
-    background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+    will-change: background-position;
   }
 }
 
@@ -79,6 +82,7 @@
 ::-webkit-scrollbar-thumb {
   background: rgb(99 102 241);
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -88,4 +92,21 @@
 /* Smooth scrolling for the entire page */
 html {
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce motion if user prefers it */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

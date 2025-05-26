@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
 
-const Hero = () => {
+const Hero = memo(() => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Particles */}
@@ -15,6 +15,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="will-change-transform"
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
             <Typewriter
@@ -45,24 +46,20 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="flex flex-col md:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <motion.a
+            <a
               href="#contact"
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 will-change-transform"
             >
               Get Started
-            </motion.a>
-            <motion.a
-              href="#projects"
-              className="px-8 py-3 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            </a>
+            <a
+              href="#about"
+              className="px-8 py-3 bg-transparent border-2 border-blue-500 text-white rounded-full hover:bg-blue-500/10 transition-colors duration-300 transform hover:scale-105 will-change-transform"
             >
-              View Projects
-            </motion.a>
+              Learn More
+            </a>
           </motion.div>
         </motion.div>
       </div>
@@ -100,6 +97,8 @@ const Hero = () => {
       </motion.div>
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero; 
