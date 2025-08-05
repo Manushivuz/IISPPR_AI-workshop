@@ -17,6 +17,8 @@ const Home = lazyLoad(() => import('../pages/Home'));
 const Projects = lazyLoad(() => import('../pages/Projects'));
 const About = lazyLoad(() => import('../pages/About'));
 const Testimonials = lazyLoad(() => import('../pages/Testimonials'));
+const ManageTestimonials = lazyLoad(() => import('../pages/ManageTestimonials'));
+const AddTestimonial = lazyLoad(() => import('../pages/AddTestimonial'));
 const Contact = lazyLoad(() => import('../pages/Contact'));
 
 // Loading fallback component
@@ -61,6 +63,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingFallback />}>
             <Testimonials />
+          </Suspense>
+        )
+      },
+      {
+        path: 'manage-testimonials',
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <ManageTestimonials />
+          </Suspense>
+        )
+      },
+      {
+        path: 'add-testimonial',
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <AddTestimonial />
           </Suspense>
         )
       },
