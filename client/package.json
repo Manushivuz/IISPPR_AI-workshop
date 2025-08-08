@@ -29,6 +29,7 @@
     "postcss": "^8.5.3",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.17",
+    "terser": "^5.43.1",
     "vite": "^5.1.0"
   }
 }
